@@ -5,4 +5,5 @@ My personal blog using issues and GitHub Actions (随意转载，无需署名)
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
 ## 最近更新
+- [记一次凉凉的小米面试](https://github.com/liangyisong34/Suguy-blog/issues/2)--2022-03-29
 - [第一篇博客](https://github.com/liangyisong34/Suguy-blog/issues/1)--2022-03-29
