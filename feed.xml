@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-29T03:42:05.435090+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-29T03:42:05.566197+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+<blockquote>
+<p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
+</blockquote>
+<p><strong>目标：</strong></p>
+<blockquote>
+<p>1.记录自己平时学习到的新的知识，以及一些小demo。
+2.记录平时一些不仅局限于代码的思考和感悟，比如生活，爱好，时事之类的。
+3.通过博客来锻炼自己的表达与总结能力。</p>
+</blockquote>
+<p><strong>计划：</strong> </p>
+<blockquote>
+<p>1.马上入职新公司，要义更加饱满向上的态度对待工作，积极去学习公司的技术与业务。
+2.学习新的技术，比如node，typescript，提高自己react的深度。
+3.平时要多在博客记录和总结，养成良好的习惯。</p>
+</blockquote>
+<p>ps:第一次使用github，很多操作还不是还熟悉..... o(╥﹏╥)o</p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/1" rel="alternate"/><published>2022-03-29T03:36:00+00:00</published></entry></feed>
