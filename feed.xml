@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-30T01:52:39.759492+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-30T01:52:40.109419+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-30T01:56:45.078099+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-30T01:56:45.377064+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
 <blockquote>
 <p>1.手写一个防抖函数，还顺便问了下call,apply,bind的区别</p>
 </blockquote>
@@ -62,12 +62,12 @@ new Promise((resolve,reject)=&gt;{
 目前自己对promise理解的还不是很透彻，后续搞明白了再补充吧....
 </code></pre>
 <blockquote>
-<p>后面就是针对我做的项目一些常规的问题，问我怎么性能优化，回流重绘的相关知识，怎么防止内存泄露。。。当知道我们还在兼容es7这种浏览器时表示很震惊，之后问了些响应式布局之类的我都说我们没怎么用到过，都是在js代码里进行特异性兼容。</p>
+<p>后面就是针对我做的项目一些常规的问题，问我怎么性能优化，回流重绘的相关知识，怎么防止内存泄露。。。当知道我们还在兼容ie7这种浏览器时表示很震惊，之后问了些响应式布局之类的我都说我们没怎么用到过，都是在js代码里进行特异性兼容。</p>
 </blockquote>
 <blockquote>
-<p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉，现在心里只有后悔，为什么毕业后选择了这个大坑</p>
+<p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉</p>
 </blockquote>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-30T01:52:40.315248+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-30T01:56:45.562309+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
 <blockquote>
 <p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
 </blockquote>
