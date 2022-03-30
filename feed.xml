@@ -1,5 +1,93 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-30T01:56:45.078099+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-30T01:56:45.377064+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-30T03:22:22.632624+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-30T03:22:22.786249+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
+<blockquote>
+<p>相关知识介绍：
+1.window.innerWidth/innerHeight，返回窗口的文档显示区的宽度和高度，如果有滚动条，也会包括滚动条的宽高。
+2.element.getBoundingClientRect()，返回元素的大小以及相对于视口的位置。</p>
+</blockquote>
+<pre><code>代码：
+
+&lt;body&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;pic&quot;&gt;&lt;/div&gt;
+	&lt;style&gt;
+          .pic{
+	      width: 300px;
+	      height: 300px;
+	      margin: 20px auto;
+	      border: 1px solid #5F9EA0;
+          }
+	&lt;/style&gt;
+        &lt;script&gt;
+	      //创建一个队列来保存还未渲染的图片
+	      let picArr = $(&#x27;.pic&#x27;)
+	      
+	      //检查元素是否在视窗内，预留一个340px作为缓冲
+	      function checkElement(ele){
+		      const viewWidth = window.innerWidth
+		      const viewHeight = (window.innerHeight +340)
+		      const {top,bottom,left,right} = ele.getBoundingClientRect()
+		      return (top&gt;=0 &amp;&amp; bottom&lt;=viewHeight &amp;&amp; left&gt;=0 &amp;&amp; right&lt;=viewWidth)
+	      }
+	      
+	      //遍历当前队列图片是否在视窗内，不是就直接终止遍历，同时把已经渲染过的图片移出队列
+	      function lazyLoad(){
+		      console.log(picArr)
+		      if(picArr.length){
+			      let firstEle = Array.prototype.shift.call(picArr)
+			      let isLastEle = false
+			      while(checkElement(firstEle)){
+				      $(firstEle).css(&#x27;background-color&#x27;,&#x27;blue&#x27;)
+				      if(picArr.length){
+					      firstEle = Array.prototype.shift.call(picArr)
+				      }else{
+					      isLastEle=true
+					      break
+				      }
+			      }
+			      if(!isLastEle){
+				      Array.prototype.unshift.call(picArr,firstEle)
+			      }
+		      }
+	      }
+	      
+	      //防抖函数，减少滚动事件触发频率
+	      function throotle(fn,time){
+		      let flag = true
+		      return function(){
+			      if(flag){
+				      flag=false
+				      setTimeout(function(){
+					      fn()
+					      flag = true
+				      },time)
+			      }
+		      }
+	      }
+	      
+	      //初始化渲染视窗内图片
+	      lazyLoad()
+	      
+	      //绑定滚动监听事件
+	      document.addEventListener(&#x27;scroll&#x27;,throotle(lazyLoad,100))
+      &lt;/script&gt;
+&lt;/body&gt;
+</code></pre>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-30T03:22:22.865392+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
 <blockquote>
 <p>1.手写一个防抖函数，还顺便问了下call,apply,bind的区别</p>
 </blockquote>
@@ -67,7 +155,7 @@ new Promise((resolve,reject)=&gt;{
 <blockquote>
 <p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉</p>
 </blockquote>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-30T01:56:45.562309+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-30T03:22:22.931754+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
 <blockquote>
 <p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
 </blockquote>
