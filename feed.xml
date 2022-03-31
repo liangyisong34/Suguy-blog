@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-31T08:57:38.358870+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/4</id><title>实现一个promise</title><updated>2022-03-31T08:57:38.723411+00:00</updated><content type="html"><![CDATA[<p><strong>因为自己之前一直对promise没有搞太明白，尤其是then的链式调用那里更是云里雾里，因此决定手写一遍彻底搞懂promise</strong></p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-31T10:53:58.818115+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/4</id><title>一步一步实现一个promise</title><updated>2022-03-31T10:53:59.150586+00:00</updated><content type="html"><![CDATA[<p><strong>因为自己之前一直对promise没有搞太明白，尤其是then的链式调用那里更是云里雾里，因此决定手写一遍彻底搞懂promise</strong></p>
 <ul>
 <li><em>首先来看下一个promise的简单功能以及使用方式</em></li>
 </ul>
@@ -81,7 +81,369 @@ let promise = new myPromise((resolve,reject)=&gt;{
 <ul>
 <li><em>支持同步任务</em></li>
 </ul>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/4" rel="alternate"/><published>2022-03-31T08:54:48+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-31T08:57:38.889943+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
+<pre><code>function myPromise(fn) {
+        let self = this
+        self.value = null
+        self.error = null
+        self.onFulfilled = null
+        self.onRejected = null
+
+        function resolve(value) {
+            setTimeout(function () {
+                self.value = value
+                self.onFulfilled(self.value)
+            }, 0)
+        }
+
+        function reject(error) {
+            setTimeout(function () {
+                self.error = error
+                self.onRejected(self.error)
+            }, 0)
+        }
+        fn(resolve, reject)
+    }
+
+    myPromise.prototype.then = function (onFulfilled, onRejected) {
+        this.onFulfilled = onFulfilled
+        this.onRejected = onRejected
+    }
+</code></pre>
+<blockquote>
+<p>思路很简单，增加一个setTimeout来延迟执行</p>
+</blockquote>
+<ul>
+<li><em>接下来给promise添加状态</em></li>
+</ul>
+<pre><code>const PENDING = &quot;pending&quot;
+const FULFILLED = &quot;fulfilled&quot;
+const REJECTED = &quot;rejected&quot;
+
+function myPromise(fn) {
+  let self = this
+  self.status = PENDING
+  self.value = null
+  self.error = null
+  self.onFulfilled = null
+  self.onRejected = null
+
+  function resolve(value) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = FULFILLED
+              self.value = value
+              self.onFulfilled(self.value)
+          }, 0)
+      }
+  }
+
+  function reject(error) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = REJECTED
+              self.error = error
+              self.onRejected(self.error)
+          }, 0)
+      }
+  }
+  fn(resolve, reject)
+}
+
+myPromise.prototype.then = function (onFulfilled, onRejected) {
+  if (this.status === PENDING) {
+      this.onFulfilled = onFulfilled
+      this.onRejected = onRejected
+  } else if (this.status === FULFILLED) {
+      onFulfilled(this.value)
+  } else if (this.status === REJECTED) {
+      onRejected(this.error)
+  }
+}
+</code></pre>
+<blockquote>
+<p>这个也比较简单，添加三种状态，resolve,reject会分别改变成对应的状态，then的回调函数里根据当前不同的状态分别执行不同的操作</p>
+</blockquote>
+<ul>
+<li><em>支持链式调用，借用jQuery的思路，每次then都把当前实例返回</em></li>
+</ul>
+<pre><code>const PENDING = &quot;pending&quot;
+const FULFILLED = &quot;fulfilled&quot;
+const REJECTED = &quot;rejected&quot;
+
+function myPromise(fn) {
+  let self = this
+  self.status = PENDING
+  self.value = null
+  self.error = null
+  self.onFulfilled = null
+  self.onRejected = null
+
+  function resolve(value) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = FULFILLED
+              self.value = value
+              self.onFulfilled(self.value)
+          }, 0)
+      }
+  }
+
+  function reject(error) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = REJECTED
+              self.error = error
+              self.onRejected(self.error)
+          }, 0)
+       }
+  }
+  fn(resolve, reject)
+}
+
+myPromise.prototype.then = function (onFulfilled, onRejected) {
+  if (this.status === PENDING) {
+      this.onFulfilled = onFulfilled
+      this.onRejected = onRejected
+  } else if (this.status === FULFILLED) {
+      onFulfilled(this.value)
+  } else if (this.status === REJECTED) {
+      onRejected(this.error)
+  }
+  return this
+}  
+</code></pre>
+<blockquote>
+<p>通过return this来实现链式调用。但其实是有问题的，比如  <code>1.后面then的回调函数会覆盖前面的，最终返回的是最后一个的结果</code>  <code> 2.每次传递的都是最开始定义的那个promise实例，与实际不符合，期望应该是每次都返回一个新的promise实例</code></p>
+</blockquote>
+<ul>
+<li><em>解决问题一，采用一个队列来保存then的回调函数</em></li>
+</ul>
+<pre><code>const PENDING = &quot;pending&quot;
+const FULFILLED = &quot;fulfilled&quot;
+const REJECTED = &quot;rejected&quot;
+
+function myPromise(fn) {
+    let self = this
+    self.status = PENDING
+    self.value = null
+    self.error = null
+    self.onFulfilledCallbacks = []
+    self.onRejectedCallbacks = []
+
+    function resolve(value) {
+        if (self.status === PENDING) {
+            setTimeout(function () {
+                self.status = FULFILLED
+                self.value = value
+                self.onFulfilledCallbacks.forEach(callback =&gt; {
+                    callback(self.value)
+                })
+            }, 0)
+        }
+    }
+
+    function reject(error) {
+        if (self.status === PENDING) {
+            setTimeout(function () {
+                self.status = REJECTED
+                self.error = error
+                self.onRejectedCallbacks.forEach(callback =&gt; {
+                    callback(self.error)
+                })
+            }, 0)
+        }
+    }
+    fn(resolve, reject)
+}
+
+myPromise.prototype.then = function (onFulfilled, onRejected) {
+    if (this.status === PENDING) {
+        this.onFulfilledCallbacks.push(onFulfilled)
+        this.onRejectedCallbacks.push(onRejected)
+    } else if (this.status === FULFILLED) {
+        onFulfilled(this.value)
+    } else if (this.status === REJECTED) {
+        onRejected(this.error)
+    }
+    return this
+}
+</code></pre>
+<ul>
+<li><em>解决问题二，不使用return this ，而是新创建一个promise并返回</em></li>
+</ul>
+<blockquote>
+<p>这里会比较抽象，我自己也是理解了好久，举一个场景吧，现在我要获取一个用户信息，需要几个异步操作：getName，getAge，getInfo，每一次异步操作都会取上一个异步操作的返回值作为入参，按照平时的写法应该是这样的：</p>
+</blockquote>
+<pre><code>getName().
+        then(getAge).
+        then(getInfo).
+        then(function(info){
+            console.log(info)
+        })
+</code></pre>
+<blockquote>
+<p>如果套用我们现在写的promise，是没有办法执行完一个异步任务之后返回一个新的promise再执行下一个，也获取不到上一个异步任务的返回值，因为它是把所有异步任务注册到最开始定义的promise上的回调函数队列里，然后在依次执行。举个例子：</p>
+</blockquote>
+<pre><code>let promise = new myPromise((resolve, reject) =&gt; {
+    setTimeout(function () {
+        resolve(&#x27;success&#x27;)
+    }, 1000)
+
+})
+let promise1 = promise.then(
+    reason =&gt; {
+        a(reason)
+    }
+)
+
+let promise2 = promise1.then(
+    reason =&gt; {
+        b(reason)
+    }
+)
+
+function a(reason) {
+    setTimeout(function () {
+        console.log(reason + &#x27;1&#x27;)
+    }, 5000)
+}
+
+function b(reason) {
+    setTimeout(function () {
+        console.log(reason + &#x27;2&#x27;)
+    }, 1000)
+}
+</code></pre>
+<blockquote>
+<p>返回结果是sucess2,sucess1，甚至还会因为异步执行完成时间打乱调用顺序！！！结合前面获取用户信息的例子来看，如果使用我们的promise，它会有以下问题：获取用户信息时拿不到上一步获取的年龄，获取年龄获取信息执行顺序不能确定......因此返回this是行不通的，需要返回一个桥梁promsie，做到承上启下的作用，代码具体实现如下：</p>
+</blockquote>
+<pre><code>const PENDING = &quot;pending&quot;
+const FULFILLED = &quot;fulfilled&quot;
+const REJECTED = &quot;rejected&quot;
+
+function myPromise(fn) {
+  let self = this
+  self.status = PENDING
+  self.value = null
+  self.error = null
+  self.onFulfilledCallbacks = []
+  self.onRejectedCallbacks = []
+
+  function resolve(value) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = FULFILLED
+              self.value = value
+              self.onFulfilledCallbacks.forEach(callback =&gt; {
+                  callback(self.value)
+              })
+          }, 0)
+      }
+  }
+
+  function reject(error) {
+      if (self.status === PENDING) {
+          setTimeout(function () {
+              self.status = REJECTED
+              self.error = error
+              self.onRejectedCallbacks.forEach(callback =&gt; {
+                  callback(self.error)
+              })
+          }, 0)
+      }
+  }
+  fn(resolve, reject)
+}
+
+myPromise.prototype.then = function (onFulfilled, onRejected) {
+  const self = this
+  let bridgePromise
+  //防止使用者不传成功或失败回调函数，所以成功失败回调都给了默认回调函数
+  onFulfilled = typeof onFulfilled === &quot;function&quot; ? onFulfilled : value =&gt; value
+  onRejected = typeof onRejected === &quot;function&quot; ? onRejected : error =&gt; {
+      throw error
+  }
+  if (self.status === FULFILLED) {
+      return bridgePromise = new MyPromise((resolve, reject) =&gt; {
+          setTimeout(() =&gt; {
+              try {
+                  let x = onFulfilled(self.value)
+                  resolvePromise(bridgePromise, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          })
+      })
+  }
+  if (self.status === REJECTED) {
+      return bridgePromise = new MyPromise((resolve, reject) =&gt; {
+          setTimeout(() =&gt; {
+              try {
+                  let x = onRejected(self.error)
+                  resolvePromise(bridgePromise, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          })
+      })
+  }
+  if (self.status === PENDING) {
+      return bridgePromise = new MyPromise((resolve, reject) =&gt; {
+          self.onFulfilledCallbacks.push((value) =&gt; {
+              try {
+                  let x = onFulfilled(value)
+                  resolvePromise(bridgePromise, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          });
+          self.onRejectedCallbacks.push((error) =&gt; {
+              try {
+                  let x = onRejected(error)
+                  resolvePromise(bridgePromise, x, resolve, reject)
+              } catch (e) {
+                  reject(e)
+              }
+          })
+      })
+  }
+}
+
+//catch方法其实是个语法糖，就是只传onRejected不传onFulfilled的then方法
+myPromise.prototype.catch = function (onRejected) {
+  return this.then(null, onRejected)
+}
+//用来解析回调函数的返回值x，x可能是普通值也可能是个promise对象
+function resolvePromise(bridgePromise, x, resolve, reject) {
+  //如果x是一个promise
+  if (x instanceof myPromise) {
+      //如果这个promise是pending状态，就在它的then方法里继续执行resolvePromise解析它的结果，直到返回值不是一个pending状态的promise为止
+      if (x.status === PENDING) {
+          x.then(y =&gt; {
+              resolvePromise(bridgePromise, y, resolve, reject)
+          }, error =&gt; {
+              reject(error)
+          })
+      } else {
+          x.then(resolve, reject)
+      }
+      //如果x是一个普通值，就让bridgePromise的状态fulfilled，并把这个值传递下去
+  } else {
+      resolve(x)
+  }
+}
+</code></pre>
+<blockquote>
+<p>简单解释一下，就以then中的FULFILLED状态为例：</p>
+<ul>
+<li>必须返回一个新的promise</li>
+<li>先获取到成功回调函数的值x，调用resolvePromise解析，根据是否是promise进行不同的处理</li>
+<li>如果x是promise，不断用resolvePromise递归解析直到它的状态不是PENDING，然后调用 x.then(resolve, reject)，注意：这里其实是x.then(value =&gt; resolve(value), reason =&gt; reject(reason))的简写，它的作用是对bridgePromise进行resolve或者reject，结合前面获取用户信息场景来看，就意味着getName后，getAge(name)返回的是一个promise，它会在拿到age后进行resolve(age)。getName.then也要返回一个bridgePromise，这个bridgePromise要在什么时候resolve呢？很容易理解他需要在前面那个promise resolve(age)后，因此就直接在它的then里调用bridgePromise的resolve，并且把获取到的age传递下去。</li>
+<li>如果x不是promise，就直接调用bridgePromise的resolve把这个值传下去</li>
+</ul>
+</blockquote>
+<p><strong>现在就可以实现了promise的链式调用了，要达到promise A+规范其实还有挺多需要完善的，比如解决循环引用的问题（其实就是加一个判断bridgePromise和x是否相等），还有一些promise的其他方法，后续再补充吧~</strong></p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/4" rel="alternate"/><published>2022-03-31T08:54:48+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-31T10:53:59.341009+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
 <blockquote>
 <p>相关知识介绍：
 <strong>1</strong>.window.innerWidth/innerHeight，返回窗口的文档显示区的宽度和高度，如果有滚动条，也会包括滚动条的宽高。
@@ -177,7 +539,7 @@ document.body.clientHeight，document.body.scrollHeight同上。</p>
       &lt;/script&gt;
 &lt;/body&gt;
 </code></pre>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-31T08:57:39.070932+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-31T10:53:59.522931+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
 <blockquote>
 <p>1.手写一个防抖函数，还顺便问了下call,apply,bind的区别</p>
 </blockquote>
@@ -245,7 +607,7 @@ new Promise((resolve,reject)=&gt;{
 <blockquote>
 <p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉</p>
 </blockquote>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-31T08:57:39.234647+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-31T10:53:59.713443+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
 <blockquote>
 <p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
 </blockquote>
