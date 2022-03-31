@@ -1,5 +1,87 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-30T03:41:33.819675+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-30T03:41:33.977540+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-31T08:57:38.358870+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/4</id><title>实现一个promise</title><updated>2022-03-31T08:57:38.723411+00:00</updated><content type="html"><![CDATA[<p><strong>因为自己之前一直对promise没有搞太明白，尤其是then的链式调用那里更是云里雾里，因此决定手写一遍彻底搞懂promise</strong></p>
+<ul>
+<li><em>首先来看下一个promise的简单功能以及使用方式</em></li>
+</ul>
+<pre><code>let promise = new Promise((resolve, reject) =&gt; {
+        resolve(&#x27;success&#x27;)
+        reject(&#x27;error&#x27;)
+    })
+
+promise.then(value =&gt; {
+    console.log(value)
+}, reason =&gt; {
+    console.log(reason)
+})
+</code></pre>
+<blockquote>
+<p>promise首先是一个构造函数，传入一个函数，这个函数的入参是内部设置好的resolve和reject方法。promise的原型对象上有一个then方法，它的参数是成功和失败的回调函数，会接收来自resolve和reject的参数。</p>
+</blockquote>
+<ul>
+<li><em>根据上面的结论，来写一个promise的大概结构</em></li>
+</ul>
+<pre><code>
+function myPromise(fn) {
+        function resolve(){}
+        function reject(){}
+        fn(resolve,reject)
+    }
+
+ myPromise.prototype.then=function(onFulfilled,onRejected){}
+</code></pre>
+<blockquote>
+<p>下面来填充这个骨架，实现基本功能</p>
+</blockquote>
+<ul>
+<li><em>实现基本功能</em></li>
+</ul>
+<pre><code>function myPromise(fn) {
+        let self = this
+        self.value=null
+        self.error=null
+        self.onFulfilled=null
+        self.onRejected=null
+        function resolve(value){
+            self.value=value
+            self.onFulfilled(self.value)
+        }
+        function reject(error){
+            self.error=error
+            self.onRejected(self.error)
+        }
+        fn(resolve,reject)
+    }
+
+    myPromise.prototype.then=function(onFulfilled,onRejected){
+        this.onFulfilled=onFulfilled
+        this.onRejected=onRejected
+    }
+</code></pre>
+<blockquote>
+<p>下面来做个测试，可以发现异步任务是没问题的，但是同步问题会报错，因为在初始化时调用resolve()，这个时候onFulfilled还没有赋值</p>
+</blockquote>
+<pre><code>//异步任务 通过
+let promise = new myPromise((resolve,reject)=&gt;{
+      setTimeout(function(){
+          resolve(&#x27;success&#x27;)
+      },0)
+  })
+  promise.then(reason=&gt;{
+      console.log(reason)
+  })
+
+  //同步任务 报错
+  let promise = new myPromise((resolve,reject)=&gt;{
+      resolve(&#x27;success&#x27;)
+  })
+  promise.then(reason=&gt;{
+      console.log(reason)
+  })
+</code></pre>
+<ul>
+<li><em>支持同步任务</em></li>
+</ul>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/4" rel="alternate"/><published>2022-03-31T08:54:48+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-31T08:57:38.889943+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
 <blockquote>
 <p>相关知识介绍：
 <strong>1</strong>.window.innerWidth/innerHeight，返回窗口的文档显示区的宽度和高度，如果有滚动条，也会包括滚动条的宽高。
@@ -95,7 +177,7 @@ document.body.clientHeight，document.body.scrollHeight同上。</p>
       &lt;/script&gt;
 &lt;/body&gt;
 </code></pre>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-30T03:41:34.567665+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-31T08:57:39.070932+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
 <blockquote>
 <p>1.手写一个防抖函数，还顺便问了下call,apply,bind的区别</p>
 </blockquote>
@@ -163,7 +245,7 @@ new Promise((resolve,reject)=&gt;{
 <blockquote>
 <p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉</p>
 </blockquote>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-30T03:41:34.646305+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-31T08:57:39.234647+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
 <blockquote>
 <p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
 </blockquote>
