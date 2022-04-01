@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-03-31T10:53:58.818115+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/4</id><title>一步一步实现一个promise</title><updated>2022-03-31T10:53:59.150586+00:00</updated><content type="html"><![CDATA[<p><strong>因为自己之前一直对promise没有搞太明白，尤其是then的链式调用那里更是云里雾里，因此决定手写一遍彻底搞懂promise</strong></p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://github.com/liangyisong34/Suguy-blog</id><title>RSS feed of liangyisong34's Suguy-blog</title><updated>2022-04-01T08:28:24.306330+00:00</updated><author><name>liangyisong34</name><email>lys737682672@163.com</email></author><link href="https://github.com/liangyisong34/Suguy-blog"/><link href="https://raw.githubusercontent.com/liangyisong34/Suguy-blog/master/feed.xml" rel="self"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/4</id><title>实现一个简单的Promise</title><updated>2022-04-01T08:28:24.474818+00:00</updated><content type="html"><![CDATA[<p><strong>因为自己之前一直对promise没有搞太明白，尤其是then的链式调用那里更是云里雾里，因此决定手写一遍彻底搞懂promise</strong></p>
 <ul>
 <li><em>首先来看下一个promise的简单功能以及使用方式</em></li>
 </ul>
@@ -443,7 +443,7 @@ function resolvePromise(bridgePromise, x, resolve, reject) {
 </ul>
 </blockquote>
 <p><strong>现在就可以实现了promise的链式调用了，要达到promise A+规范其实还有挺多需要完善的，比如解决循环引用的问题（其实就是加一个判断bridgePromise和x是否相等），还有一些promise的其他方法，后续再补充吧~</strong></p>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/4" rel="alternate"/><published>2022-03-31T08:54:48+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-03-31T10:53:59.341009+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/4" rel="alternate"/><published>2022-03-31T08:54:48+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/3</id><title>简单实现一个懒加载</title><updated>2022-04-01T08:28:24.581937+00:00</updated><content type="html"><![CDATA[<p>写了一个懒加载的小demo，用的jQuery库，使用背景色填充来模拟图片加载</p>
 <blockquote>
 <p>相关知识介绍：
 <strong>1</strong>.window.innerWidth/innerHeight，返回窗口的文档显示区的宽度和高度，如果有滚动条，也会包括滚动条的宽高。
@@ -539,7 +539,7 @@ document.body.clientHeight，document.body.scrollHeight同上。</p>
       &lt;/script&gt;
 &lt;/body&gt;
 </code></pre>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-03-31T10:53:59.522931+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/3" rel="alternate"/><published>2022-03-30T03:19:42+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/2</id><title>记一次凉凉的小米面试</title><updated>2022-04-01T08:28:24.670114+00:00</updated><content type="html"><![CDATA[<p>面试官人很好，上来自我介绍完之后就直接开始撸代码。</p>
 <blockquote>
 <p>1.手写一个防抖函数，还顺便问了下call,apply,bind的区别</p>
 </blockquote>
@@ -607,7 +607,7 @@ new Promise((resolve,reject)=&gt;{
 <blockquote>
 <p>最后介绍了下他们的业务大概是做什么，我听得云里雾里，好像是用伪js做安卓端的框架，还有不同环境的兼容差异，代码运行的环境也是自己做的，还建议我多去了解了解现在主流的框架。。。哎，感觉凉凉</p>
 </blockquote>
-]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-03-31T10:53:59.713443+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
+]]></content><link href="https://github.com/liangyisong34/Suguy-blog/issues/2" rel="alternate"/><published>2022-03-29T12:54:57+00:00</published></entry><entry><id>https://github.com/liangyisong34/Suguy-blog/issues/1</id><title>第一篇博客</title><updated>2022-04-01T08:28:24.754029+00:00</updated><content type="html"><![CDATA[<p><strong>背景：</strong> </p>
 <blockquote>
 <p>毕业马上两年，近期找工作不是很顺利，认识到了自己的不足，痛定思痛，决定用博客来记录自己的沉淀和成长。</p>
 </blockquote>
